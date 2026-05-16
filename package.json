@@ -27,7 +27,6 @@
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
     "@tailwindcss/postcss": "^4",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^20.19.39",
@@ -35,12 +34,13 @@
     "@types/react-dom": "^19",
     "@typescript-eslint/eslint-plugin": "^8.58.1",
     "@typescript-eslint/parser": "^8.58.1",
-    "eslint": "^9.39.4",
     "eslint-config-next": "16.2.1",
     "eslint-plugin-react": "^7.37.5",
     "globals": "^17.5.0",
     "tailwindcss": "^4",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.58.1"
+    "typescript-eslint": "^8.58.1",
+    "eslint": "^9.39.4",
+    "@eslint/js": "^9.39.1"
   }
 }
