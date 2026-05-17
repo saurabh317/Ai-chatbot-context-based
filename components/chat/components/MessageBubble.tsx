@@ -1,7 +1,6 @@
-"use client";
-
 import { Bot, User } from "lucide-react";
 import type { Message } from "./types";
+import MarkdownRenderer from "@/components/common/CodeBlock";
 
 interface MessageBubbleProps {
   message: Message;
@@ -9,8 +8,6 @@ interface MessageBubbleProps {
 
 export default function MessageBubble({ message }: MessageBubbleProps) {
   const isUser = message.role === "user";
-
-  console.log("message", message);
 
   return (
     <div
@@ -37,7 +34,7 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
       <div
         className={`
           max-w-[85%] sm:max-w-[75%] 
-          px-4 py-3 rounded-2xl text-sm leading-relaxed
+          px-2 py-2 rounded-2xl text-sm leading-relaxed
           ${
             isUser
               ? `
@@ -53,7 +50,7 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
           }
         `}
       >
-        <p className="whitespace-pre-wrap">{message.content}</p>
+        <MarkdownRenderer content={message.content} />
       </div>
 
       {/* User Avatar */}

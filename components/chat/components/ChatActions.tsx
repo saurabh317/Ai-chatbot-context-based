@@ -6,16 +6,14 @@ import { Share2, MoreVertical, Pin, PinOff, Trash2 } from "lucide-react";
 interface ChatActionsProps {
   chatId: string;
   isPinned: boolean;
-  onPin: () => void;
-  onUnpin: () => void;
+  onPinUnpin: () => void;
   onDelete: () => void;
 }
 
 export default function ChatActions({
   chatId,
   isPinned,
-  onPin,
-  onUnpin,
+  onPinUnpin,
   onDelete,
 }: ChatActionsProps) {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -76,8 +74,7 @@ export default function ChatActions({
             {/* Pin / Unpin */}
             <button
               onClick={() => {
-                // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-                isPinned ? onUnpin() : onPin();
+                onPinUnpin();
                 setShowDropdown(false);
               }}
               className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-white/70 hover:text-white hover:bg-white/10 transition"

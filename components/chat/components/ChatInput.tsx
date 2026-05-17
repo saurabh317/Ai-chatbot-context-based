@@ -1,5 +1,3 @@
-"use client";
-
 import Loading from "@/components/common/Loading";
 import { Send } from "lucide-react";
 

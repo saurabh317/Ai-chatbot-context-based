@@ -6,7 +6,11 @@ export const signUpUser = async (name: string, email: string, password: string) 
   const existingUser = await User.findOne({ email });
 
   if (existingUser) {
-    throw new Error("User already exists");
+    return {
+      success: false,
+      message: "User already exists with this email",
+      user: null,
+    };
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -16,8 +20,12 @@ export const signUpUser = async (name: string, email: string, password: string) 
     email,
     password: hashedPassword,
   });
-  
-  return user;
+
+  return {
+    success: true,
+    message: "User created successfully",
+    user,
+  };
 };
 
 
@@ -25,13 +33,23 @@ export const signInUser = async (email: string, password: string) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    throw new Error("Invalid credentials");
+    return {
+      success: false,
+      message: "User not found",
+      user: null,
+      token: null,
+    };
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
 
   if (!isMatch) {
-    throw new Error("Invalid credentials");
+    return {
+      success: false,
+      message: "Invalid credentials",
+      user: null,
+      token: null,
+    };
   }
 
   const token = jwt.sign(
@@ -40,5 +58,10 @@ export const signInUser = async (email: string, password: string) => {
     { expiresIn: "7d" }
   );
 
-  return { user, token };
+  return {
+    success: true,
+    message: "Sign in successful",
+    user,
+    token,
+  };
 };

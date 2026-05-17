@@ -37,24 +37,26 @@ export function GlassToast({ type = "info", message, closeToast }: Props) {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -30, scale: 0.98 }}
       transition={{ duration: 0.35, ease: "easeOut" }}
-      className="relative w-full max-w-md rounded-2xl bg-white/20 p-[6px] shadow-2xl"
+      className="relative w-full max-w-md rounded-2xl bg-white/20 p-[6px] sm:p-[2px] shadow-2xl"
     >
       {/* Inner glass card */}
-      <div className="relative flex items-center gap-4 rounded-2xl bg-gradient-to-br from-[#1a1a1a]/95 to-[#0f0f0f]/95 backdrop-blur-xl px-5 py-4">
+      <div className="relative flex items-center gap-4 sm:gap-2 rounded-2xl bg-gradient-to-br from-[#1a1a1a]/95 to-[#0f0f0f]/95 backdrop-blur-xl px-5 py-4">
         {/* Icon */}
         <div
-          className={`w-12 h-12 flex items-center justify-center rounded-full ${circle}`}
+          className={`w-8 h-8 flex items-center justify-center rounded-full ${circle}`}
         >
           {icon}
         </div>
 
         {/* Message */}
-        <p className="text-white/90 text-lg font-medium flex-1">{message}</p>
+        <p className="text-white/90 text-lg sm:text-base font-medium sm:font-normal flex-1">
+          {message}
+        </p>
 
         {/* Close button */}
         <button
           onClick={closeToast}
-          className="absolute top-3 right-3 w-7 h-7 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition"
+          className="absolute top-4 right-3 w-7 h-7 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition"
         >
           <X className="w-4 h-4 text-white/70" />
         </button>
@@ -69,6 +71,6 @@ export const showToast = (
 ) => {
   toast(<GlassToast type={type} message={message} />, {
     className: "!bg-transparent !shadow-none !p-0",
-    autoClose: 2000,
+    autoClose: 3000,
   });
 };

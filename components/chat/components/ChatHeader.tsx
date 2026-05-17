@@ -1,5 +1,3 @@
-"use client";
-
 import { Menu } from "lucide-react";
 import ChatActions from "./ChatActions";
 import { Logo } from "@/components/common/Logo";
@@ -8,8 +6,7 @@ interface ChatHeaderProps {
   onMenuClick: () => void;
   chatId: string | null;
   isPinned: boolean;
-  onPin: () => void;
-  onUnpin: () => void;
+  onPinUnpin: () => void;
   onDelete: () => void;
 }
 
@@ -17,8 +14,7 @@ export default function ChatHeader({
   onMenuClick,
   chatId,
   isPinned,
-  onPin,
-  onUnpin,
+  onPinUnpin,
   onDelete,
 }: ChatHeaderProps) {
   return (
@@ -47,8 +43,7 @@ export default function ChatHeader({
           <ChatActions
             chatId={chatId}
             isPinned={isPinned}
-            onPin={onPin}
-            onUnpin={onUnpin}
+            onPinUnpin={onPinUnpin}
             onDelete={onDelete}
           />
         </div>

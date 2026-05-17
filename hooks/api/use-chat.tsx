@@ -7,6 +7,7 @@ import {
   pinChatClient,
   unpinChatClient,
 } from "@/service/client/chat";
+import { useAppSelector } from "@/store/hooks";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useCreateChat() {
@@ -36,30 +37,33 @@ export function useGetChatMessages(chatId: string) {
 
 export function useSendMessage() {
   const queryClient = useQueryClient();
+  const chatState = useAppSelector((state) => state.chat);
+
   return useMutation({
     mutationFn: ({ chatId, content }: { chatId: string; content: string }) =>
       sendMessageClient(chatId, content),
-    onSuccess: (data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["messages", variables.chatId] });
-      queryClient.invalidateQueries({ queryKey: ["chats"] });
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["messages", variables.chatId],
+      });
+      // only validate chat if it's the first message (length <= 2 means 0 or 1 message)
+      if (chatState?.messages?.length <= 2) {
+        queryClient.invalidateQueries({ queryKey: ["chats"] });
+      }
     },
   });
 }
 
-export function usePinChat() {
+export function usePinUnpinChat() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (chatId: string) => pinChatClient(chatId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["chats"] });
-    },
-  });
-}
-
-export function useUnpinChat() {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (chatId: string) => unpinChatClient(chatId),
+    mutationFn: ({
+      chatId,
+      isPinned,
+    }: {
+      chatId: string;
+      isPinned: boolean;
+    }) => (isPinned ? unpinChatClient(chatId) : pinChatClient(chatId)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["chats"] });
     },
