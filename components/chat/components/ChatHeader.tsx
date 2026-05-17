@@ -1,5 +1,3 @@
-"use client";
-
 import { Menu } from "lucide-react";
 import ChatActions from "./ChatActions";
 import { Logo } from "@/components/common/Logo";

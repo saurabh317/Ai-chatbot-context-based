@@ -126,14 +126,6 @@ export default function ChatAreaWrapper({ onMenuClick }: Props) {
     }
   }, [selectedChatId, currentChat, pinUnpinChat]);
 
-  // const handlePinChat = useCallback(() => {
-  //   if (selectedChatId) pinChat(selectedChatId);
-  // }, [selectedChatId, pinChat]);
-
-  // const handleUnpinChat = useCallback(() => {
-  //   if (selectedChatId) unpinChat(selectedChatId);
-  // }, [selectedChatId, unpinChat]);
-
   return (
     <div className="flex-1 flex flex-col bg-black">
       <ChatHeader
