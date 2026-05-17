@@ -12,9 +12,8 @@ import {
   useCreateChat,
   useSendMessage,
   useGetChatMessages,
-  usePinChat,
-  useUnpinChat,
   useDeleteChat,
+  usePinUnpinChat,
 } from "@/hooks/api/use-chat";
 import { useChatSync } from "@/hooks/useChatSync";
 import type { Message } from "../components/types";
@@ -37,8 +36,7 @@ export default function ChatAreaWrapper({ onMenuClick }: Props) {
   const { mutate: createChat } = useCreateChat();
   const { mutate: sendMessage, isPending: isSending } = useSendMessage();
   const { data: messagesData } = useGetChatMessages(selectedChatId || "");
-  const { mutate: pinChat } = usePinChat();
-  const { mutate: unpinChat } = useUnpinChat();
+  const { mutate: pinUnpinChat } = usePinUnpinChat();
   const { mutate: deleteChat } = useDeleteChat();
 
   useChatSync({ chatsData, messagesData });
@@ -122,13 +120,19 @@ export default function ChatAreaWrapper({ onMenuClick }: Props) {
     [deleteChat, selectedChatId, dispatch],
   );
 
-  const handlePinChat = useCallback(() => {
-    if (selectedChatId) pinChat(selectedChatId);
-  }, [selectedChatId, pinChat]);
+  const handlePinUnpinChat = useCallback(() => {
+    if (selectedChatId) {
+      pinUnpinChat({ chatId: selectedChatId, isPinned: currentChat?.isPinned || false });
+    }
+  }, [selectedChatId, currentChat, pinUnpinChat]);
 
-  const handleUnpinChat = useCallback(() => {
-    if (selectedChatId) unpinChat(selectedChatId);
-  }, [selectedChatId, unpinChat]);
+  // const handlePinChat = useCallback(() => {
+  //   if (selectedChatId) pinChat(selectedChatId);
+  // }, [selectedChatId, pinChat]);
+
+  // const handleUnpinChat = useCallback(() => {
+  //   if (selectedChatId) unpinChat(selectedChatId);
+  // }, [selectedChatId, unpinChat]);
 
   return (
     <div className="flex-1 flex flex-col bg-black">
@@ -136,8 +140,7 @@ export default function ChatAreaWrapper({ onMenuClick }: Props) {
         onMenuClick={onMenuClick}
         chatId={selectedChatId}
         isPinned={currentChat?.isPinned || false}
-        onPin={handlePinChat}
-        onUnpin={handleUnpinChat}
+        onPinUnpin={handlePinUnpinChat}
         onDelete={() => selectedChatId && handleChatDelete(selectedChatId)}
       />
 
