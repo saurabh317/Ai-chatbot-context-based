@@ -3,10 +3,11 @@ export const headers = {
 };
 
 export const handleResponse = async (response: Response) => {
+  const data = await response.json();
   if (!response.ok) {
-    throw new Error("Failed to fetch data");
+    throw new Error(data.message);
   }
-  return response.json();
+  return data;
 };
 
 export const handleError = (error: Error) => {

@@ -10,6 +10,9 @@ import {
   API_CONFIG,
 } from "@/lib/constants";
 
+const CONTENT =
+  "You are a helpful AI assistant. Keep responses short, crisp, and conversational. Avoid long paragraphs unless explicitly asked. Answer clearly in 2-5 lines.";
+
 // Helper to get userId from token
 const getUserIdFromRequest = (req: Request): string | null => {
   const cookieHeader = req.headers.get(API_CONFIG.COOKIE_HEADER);
@@ -174,11 +177,17 @@ export const sendMessageController = async (req: Request, chatId: string) => {
 
     // Call OpenRouter API
     let aiResponse: string;
+    const modelName = AI_MODELS.FREE_MODELS[0];
     try {
-      console.log(`Using model: ${AI_MODELS.FREE_MODELS[0]}`);
+      console.log(`Using model: ${modelName}`);
       const completion = await openai.chat.completions.create({
-        model: AI_MODELS.FREE_MODELS[0],
+        model: modelName,
+        max_tokens: 120,
         messages: [
+          {
+            role: "system",
+            content: CONTENT,
+          },
           ...lastMessages.map((msg) => ({
             role: msg.role as "user" | "assistant",
             content: msg.content,
@@ -190,7 +199,7 @@ export const sendMessageController = async (req: Request, chatId: string) => {
       aiResponse =
         completion.choices[0]?.message?.content ||
         ERROR_MESSAGES.NO_AI_RESPONSE;
-      console.log(`Success with model: ${AI_MODELS.FREE_MODELS[0]}`);
+      console.log(`Success with model: ${modelName}`);
     } catch (aiError) {
       aiResponse = ERROR_MESSAGES.AI_RESPONSE_FAILED;
     }
